@@ -70,7 +70,7 @@ def insertar_keywords_en_db(palabras_clave):
         for keyword in palabras_clave:
             cur.execute("SELECT 1 FROM RockKeyword WHERE keyword = %s LIMIT 1;", (keyword,))
             if cur.fetchone() is None:
-                cur.execute("INSERT INTO keywords (id, keyword) VALUES (%s, %s);", (str(uuid.uuid4()), keyword))
+                cur.execute("INSERT INTO RockKeyword (id, keyword) VALUES (%s, %s);", (str(uuid.uuid4()), keyword))
 
         conn.commit()
         print(f"✅ Se insertaron {len(palabras_clave)} palabras clave (únicas).")
