@@ -76,3 +76,11 @@ def insertar_keywords_en_db(palabras_clave):
         print(f"✅ Se insertaron {len(palabras_clave)} palabras clave (únicas).")
     except Exception as e:
         print("❌ Error al insertar en la base de datos:")
+
+if __name__ == "__main__":
+    print("🚀 Script iniciado")
+    token = get_token()
+    print("🔑 Token obtenido")
+    palabras_clave = obtener_bandas_y_albums(token, genero="rock", max_artistas=MAX_ARTISTS)
+    print(f"🧪 {len(palabras_clave)} palabras clave encontradas")
+    insertar_keywords_en_db(palabras_clave)
