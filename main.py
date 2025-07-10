@@ -68,7 +68,7 @@ def insertar_keywords_en_db(palabras_clave):
         cur = conn.cursor()
 
         for keyword in palabras_clave:
-            cur.execute("SELECT 1 FROM keywords WHERE keyword = %s LIMIT 1;", (keyword,))
+            cur.execute("SELECT 1 FROM RockKeyword WHERE keyword = %s LIMIT 1;", (keyword,))
             if cur.fetchone() is None:
                 cur.execute("INSERT INTO keywords (id, keyword) VALUES (%s, %s);", (str(uuid.uuid4()), keyword))
 
@@ -78,7 +78,7 @@ def insertar_keywords_en_db(palabras_clave):
         import traceback
         print("❌ Error al insertar en la base de datos:", e)
         traceback.print_exc()
-        
+
 if __name__ == "__main__":
     print("🚀 Script iniciado")
     token = get_token()
