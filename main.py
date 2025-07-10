@@ -75,4 +75,4 @@ def insertar_keywords_en_db(palabras_clave):
         conn.commit()
         print(f"✅ Se insertaron {len(palabras_clave)} palabras clave (únicas).")
     except Exception as e:
-        print("❌ Error al insertar en la base de datos:"
+        print("❌ Error al insertar en la base de datos:")
