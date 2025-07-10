@@ -1,6 +1,5 @@
 import requests
 import base64
-import json
 import time
 import psycopg2
 import uuid
@@ -10,6 +9,7 @@ import os
 CLIENT_ID = os.getenv("SPOTIFY_CLIENT_ID")
 CLIENT_SECRET = os.getenv("SPOTIFY_CLIENT_SECRET")
 DB_CONNECTION_STRING = os.getenv("DB_CONNECTION_STRING")
+MAX_ARTISTS = int(os.getenv("MAX_ARTISTS", "10"))  # Valor por defecto: 100
 
 # 🔐 Obtener token de Spotify
 def get_token():
@@ -22,6 +22,7 @@ def get_token():
         "grant_type": "client_credentials"
     }
     response = requests.post("https://accounts.spotify.com/api/token", headers=headers, data=data)
+    response.raise_for_status()
     return response.json()["access_token"]
 
 # 🔍 Obtener artistas y álbumes
@@ -74,14 +75,4 @@ def insertar_keywords_en_db(palabras_clave):
         conn.commit()
         print(f"✅ Se insertaron {len(palabras_clave)} palabras clave (únicas).")
     except Exception as e:
-        print("❌ Error al insertar en la base de datos:", e)
-    finally:
-        if conn:
-            cur.close()
-            conn.close()
-
-# 🚀 Ejecutar proceso completo
-if __name__ == "__main__":
-    token = get_token()
-    palabras_clave = obtener_bandas_y_albums(token, genero="rock", max_artistas=10)
-    insertar_keywords_en_db(palabras_clave)
+        print("❌ Error al insertar en la base de datos:"
